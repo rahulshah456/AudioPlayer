@@ -1,8 +1,13 @@
 package com.rahulshah456.audioplayer.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import com.rahulshah456.audioplayer.R
 import com.rahulshah456.audioplayer.adapter.SongCategoryAdapter
 import com.rahulshah456.audioplayer.models.Song
@@ -25,8 +30,25 @@ class MainActivity : AppCompatActivity() {
 
         val songCategoryAdapter = SongCategoryAdapter()
         songCategoryAdapter.submitList(getData())
+        songCategoryAdapter.setOnItemClickListener(object : SongCategoryAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int, thumbnail: View, song: Song) {
+                val intent = Intent(this@MainActivity, PlayerActivity::class.java)
+                intent.putExtra("position", position)
+                intent.putExtra("transitionName", position)
+                intent.putExtra("song", song)
+                val p1 = Pair.create(thumbnail, thumbnail.transitionName)
+                val options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(this@MainActivity, p1)
+                startActivity(intent, options.toBundle())
+            }
+        })
         rv_main.adapter = songCategoryAdapter
+        rv_main.setItemViewCacheSize(20)
+        rv_main.setHasFixedSize(true)
+        rv_main.isDrawingCacheEnabled = true
+        rv_main.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
     }
+
 
 
     private fun getData(): ArrayList<SongCategory> {
@@ -43,6 +65,8 @@ class MainActivity : AppCompatActivity() {
         }
         return bookCategory
     }
+
+
 
     private fun initStatusBarColor() {
         val window = window

@@ -35,7 +35,6 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:layout_marginTop="8dp"
-            app:setSongs="@{songCategory.songs}"
             android:orientation="horizontal"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

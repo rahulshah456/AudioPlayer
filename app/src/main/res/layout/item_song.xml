@@ -6,6 +6,12 @@
     <data>
         <import type="androidx.core.content.ContextCompat" />
         <variable
+            name="position"
+            type="Integer" />
+        <variable
+            name="listener"
+            type="com.rahulshah456.audioplayer.adapter.SongAdapter.OnItemClickListener" />
+        <variable
             name="song"
             type="com.rahulshah456.audioplayer.models.Song" />
     </data>
@@ -14,31 +20,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
+        <ImageView
             android:id="@+id/cv_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardCornerRadius="4dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:transitionName="@{song.id + song.songName}"
+            android:onClick="@{(view)-> listener.onItemClick(position,view,song)}"
+            android:src="@{ContextCompat.getDrawable(context, song.coverImage)}"
+            tools:src="@drawable/cover_7"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:transitionName="@{song.id}"
-                android:src="@{ContextCompat.getDrawable(context, song.coverImage)}"
-                tools:src="@drawable/cover_7" />
-
-        </com.google.android.material.card.MaterialCardView>
-
-
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
         <TextView
@@ -49,6 +46,7 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/montserrat"
             android:text="@{song.songName}"
+            android:textStyle="bold"
             android:textColor="@color/text_color_adaptable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/cv_image"
